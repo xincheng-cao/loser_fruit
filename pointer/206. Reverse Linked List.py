@@ -17,4 +17,4 @@ class Solution:
             before=cur
             cur=next
 
-        return before        
+        return before
