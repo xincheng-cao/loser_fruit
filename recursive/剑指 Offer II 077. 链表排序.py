@@ -54,3 +54,60 @@ class Solution:
         right = self.sortList(head=right)
         head = self.merge2(left=left, right=right)
         return head
+
+
+# next try
+class Solution:
+    def fast_slow(self,node):
+        if node.next is None:
+            return node, None
+        if node.next.next is None:
+            cur_left=node
+            cur_right=node.next
+            cur_left.next=None
+            return cur_left,cur_right
+
+        cur_left=node
+        cur_right=node
+        while cur_left is not None and cur_right is not None:
+            if cur_right.next is not None:
+                if cur_right.next.next is not None:
+                    cur_right=cur_right.next.next
+                    cur_left=cur_left.next
+                    continue
+            temp=cur_left
+            cur_left=cur_left.next
+            temp.next=None
+            del temp
+            return node, cur_left
+    def sortList(self, head: ListNode) -> ListNode:
+        if head is None:
+            return None
+        if head.next is None:return head
+
+        left,right=self.fast_slow(head)
+        ordered_left=self.sortList(left)
+        ordered_right=self.sortList(right)
+        if ordered_left is None:return ordered_right
+        if ordered_right is None: return ordered_left
+        # cant both be None
+        fake_head=ListNode(None,None)
+        cur=fake_head
+        while ordered_left is not None and ordered_right is not None:
+            if ordered_left.val < ordered_right.val:
+                cur.next=ordered_left
+                ordered_left=ordered_left.next
+                cur=cur.next
+                cur.next=None
+            else:
+                cur.next=ordered_right
+                ordered_right=ordered_right.next
+                cur=cur.next
+                cur.next=None
+        if ordered_left is not None:
+            cur.next=ordered_left
+        else:
+            cur.next=ordered_right
+        temp=fake_head.next
+        fake_head.next=None
+        return temp
