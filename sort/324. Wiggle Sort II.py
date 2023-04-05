@@ -54,6 +54,39 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
+        '''
+        input : start_idx and end_idx (不是0，和len(nums)-1！！！)
+        
+        无论是2-way 还是3-way method 返回的都是3个区间
+        2-way [<=std],std(only1),[>std]
+        3-way [<std],[=std],[>std]
+        
+        2way 返回是中间那个std 的idx
+        3way 返回的是左的] 和右的[
+        
+        那么下一次递归：
+        2way
+        左分支: input start_idx,std-1
+        右分支: input std+1,end_idx
+        
+        3way
+        左分支: input start_idx,左的]
+        右分支: input 右的[,end_idx
+        
+        不用担心start_idx,end_idx 他们会自变化 不会一直是0，和len(nums)-1
+        
+        
+        
+        
+        2way:
+        std(only1), ...], ... , 人, ... 
+        小人向 ...] 里面扔<=std的node
+        
+        3way：
+        ...] , ...人..., [...
+        小人把<std node 扔到 ...]
+        小人把>std node 扔到 [...
+        '''
         # way1
         self.three_way_quick_sel(nums)
         return
